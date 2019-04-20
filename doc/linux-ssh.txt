@@ -52,6 +52,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
+git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
 
 #-------to download-------
 cd ~/tmp
