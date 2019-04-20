@@ -4,8 +4,6 @@
 gp()
 (
   git pull 
-  rg --files --type cpp . | rg -v 'Test|_test|.py$|CMake|tests|xml|cmake|UT|-test' > ~/tmp/project-files &
-  cd -
 )
 
 kk() {
