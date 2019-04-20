@@ -1,0 +1,40 @@
+# vim: set ft=sh:
+# -*- mode: sh -*- 
+
+gp()
+(
+  git pull 
+  rg --files --type cpp . | rg -v 'Test|_test|.py$|CMake|tests|xml|cmake|UT|-test' > ~/tmp/project-files &
+  cd -
+)
+
+kk() {
+  local pid
+  pid=$(ps -ef | grep $USER | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+} 
+
+tl ()
+{
+    gawk -f $NOTES_BIN/tl.awk -v kxx=$@ $NOTES_/notes.txt
+}
+
+tg ()
+{
+    gawk -f $NOTES_BIN/tg.awk -v kxx=$@ $NOTES_/notes.txt
+}
+
+tp ()
+{
+    gawk -f $NOTES_BIN/tp.awk -v kxx=$@ $NOTES_/notes.txt
+} 
+
+g()
+(
+    cd $MYPROJ
+    cat ~/tmp/project-files | xargs rg $@
+) 

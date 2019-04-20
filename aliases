@@ -1,0 +1,43 @@
+# vim: set ft=sh: -*- mode: sh -*-
+
+alias l="ls -lrt --color"
+alias la="l -a"
+alias x="exit"
+alias v="nvim"
+#alias vim="v"
+
+alias p="cd ~/progs"
+alias t="cd ~/tmp"
+
+alias s="source ~/.bashrc"
+alias sa="source ~/.aliases"
+alias sf="source ~/.functions"
+
+alias eb="v ~/.bashrc"
+alias ea="v ~/.aliases"
+alias ef="v ~/.functions"
+alias te="v $NOTES_/notes.txt"
+
+alias f="fzf"
+alias vf='v $(fzf)'
+
+alias gt="gnome-terminal &"
+alias tma="tmux attach"
+alias tmd="tmux detach"
+
+alias ..="cd .."
+alias ...="cd ..; cd .."
+alias r='ranger'
+alias u="rxvt-unicode"
+
+#linux
+alias ins="sudo apt-get install"
+
+#git
+alias gi="g -i "
+alias gs="git status"
+alias gd="git diff"
+alias gsu="git submodule update --init --recursive"
+alias m="git status --short"
+alias gg="git log --oneline | fzf --multi --reverse --preview 'git show {+1}'"
+alias sp='git log --oneline --no-merges HEAD..origin/master'

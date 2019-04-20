@@ -1,0 +1,56 @@
+# vim: set ft=sh:  -*- mode: sh -*-
+
+PATH=$PATH:~/progs/bin/:~/dotfiles/
+# Remove duplicates
+PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
+export PATH
+
+export TERM='screen-256color'
+export PAGER=less
+export PREFIX=/home/$USER/progs/
+export EDITOR=/home/$USER/progs/bin/nvim
+
+export ftp_proxy=$PROXY
+export http_proxy=$PROXY
+export https_proxy=$PROXY
+export HTTP_PROXY=$PROXY
+export HTTPS_PROXY=$PROXY
+
+#history
+export HISTSIZE="NOTHING"
+export HISTFILESIZE="NOTHING"
+export HISTFILE=$HOME/.bash_history
+export HISTCONTROL=ignorespace:ignoredups:erasedups
+shopt -s histappend
+_bash_history_sync()
+{
+    history -a &&  tac $HISTFILE | remDupes | tac > ~/tmp/tmpxx && history -c -r ~/tmp/tmpxx && history -w
+}
+export PROMPT_COMMAND="_bash_history_sync"
+
+
+#fzf
+#export FZF_DEFAULT_OPTS='
+#--color fg:188,bg:233,hl:103,fg+:222,bg+:234,hl+:104
+#--color info:183,prompt:110,spinner:107,pointer:167,marker:215
+#'
+#export FZF_DEFAULT_COMMAND='
+#  (git ls-tree -r --name-only HEAD ||
+#   find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
+#      sed s/^..//) 2> /dev/null'
+
+#ctrl-p
+[[ $- == *i* ]] && bind -x '"\C-p": v $(cat ~/tmp/project-files |  fzf);'
+[[ $- == *i* ]] && bind -x '"\C-p": v $(fzf);'
+
+#git prompt
+GIT_PROMPT_START="\u\[\e[31m\]@\h \[\e[32m\]\w \[\e[m\]" 
+GIT_PROMPT_END="\n➤  " 
+GIT_PROMPT_THEME=Solarized
+GIT_PROMPT_ONLY_IN_REPO=1
+GIT_PROMPT_IGNORE_SUBMODULES=1 
+GIT_PROMPT_SHOW_UNTRACKED_FILES=normal
+GIT_PS1_SHOWCOLORHINTS=true
+#source ~/.bash-git-prompt/gitprompt.sh
+
+export MAKEFLAGS=-j$(nproc)

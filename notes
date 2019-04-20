@@ -1,0 +1,102 @@
+# vim: filetype=markdown 
+# -*- mode: perl -*-
+
+##git commands gc##
+cf
+git add -u
+git commit --amend
+git commit --amend --reset-author --no-edit
+
+git push origin HEAD:refs/for/master
+git push origin HEAD:refs/drafts/master
+
+git reset --hard HEAD
+git reset --hard HEAD~1
+git reset --hard HEAD~2
+
+git apply ~/tmp/a.diff
+
+git clean -nd .
+git clean -fd
+
+git stash list
+git stash save "important-change"
+git stash apply stash@{n}
+git stash drop stash@{n}
+git diff-tree --no-commit-id --name-only -r 95f97487ab /list files changed by commit
+
+git submodule update --init --recursive
+git config --get remote.origin.url
+git reset --hard  //remove all local changes
+
+git log interesting commit
+--------------------------
+git log -L110,110:/lib/client.js
+git log -G "var identifier =" file.js
+for c in $(git log -G "something" --format=%H -- file.js); do
+    git --no-pager grep -e "something" $c -- file.js
+done
+
+
+----------------------
+git remove untracked
+----------------------
+git clean -n --> list files that will be removed
+git clean -f --> delete files
+
+------------------------------------
+Already committed--but not pushed
+------------------------------------
+git reset --soft HEAD^   //move locally committed file to staging (before push)
+then,
+git reset HEAD <file>   to unstage
+
+Stat: git log --shortstat @{1.week.ago}..HEAD cplane | grep 'commit \|Date:\|files changed\|file changed'
+
+##strange char while pasting##
+printf "\e[?2004l"
+
+also, set this in .vimrc
+set t_BE=c
+
+
+##bash no profile bashrc
+bash --noprofile --norc
+
+
+##find replace##
+find . -name *pp -exec sed -i 's/a/b/g' '{}' \;
+
+##vim startuptime##
+vim +q --startuptime startuptime.txt
+
+   
+##font powerline##
+patched fonts can be downloaded
+copy them to ~/.fonts
+run fc-cache -vf ~/.fonts
+check font name with command:  fc-list  | rg -i powe
+
+##nato##
+A - Alpha K - Kilo U - Uniform 0 - Zero
+B - Bravo L - Lima V - Victor 1 - Wun (One)
+C - Charlie M - Mike W - Whiskey 2 - Two
+D - Delta N - November X - X-ray 3 - Tree (Three)
+E - Echo O - Oscar Y - Yankee 4 - Fower (Four)
+F - Foxtrot P - Papa Z - Zulu 5 - Fife (Five)
+G - Golf Q - Quebec 6 - Six
+H - Hotel R - Romeo . - decimal (point) 7 - Seven
+I - India S - Sierra . - (full) stop 8 - Ait (Eight)
+J - Juliet
+T - Tango
+
+9 - Niner (Nine)    
+
+##vim delete blank lines##
+
+vim delete blank lines
+
+:g/^$/d
+
+:g will execute a command on lines which match a regex.
+The regex is 'blank line' and the command is :d (delete)

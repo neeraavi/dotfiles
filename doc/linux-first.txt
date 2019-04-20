@@ -1,0 +1,177 @@
+##
+mkdir tmp
+chmod +x /home/neeraavi/dotfiles/remDupes
+
+ln -s dotfiles/aliases .aliases
+ln -s dotfiles/functions .functions
+ln -s dotfiles/exports .exports
+ln -s dotfiles/bashrc .bashrc
+ln -s dotfiles/bash_profile .bash_profile
+ln -s dotfiles/aliases-off .aliases-off
+ln -s dotfiles/tmux.conf .tmux
+ln -s dotfiles/ctagsignore .ctagsignore
+
+#vim
+ln -s dotfiles/vimrc .vimrc
+
+#nvim
+ln -s dotfiles/nvimrc .nvimrc
+mkdir -p ~/.config/nvim
+echo 'source ~/.nvimrc' > ~/.config/nvim/init.vim
+
+##proxy
+sudo vi /etc/environment
+
+http_proxy="http://myproxy.server.com:8080/"
+https_proxy="http://myproxy.server.com:8080/"
+ftp_proxy="http://myproxy.server.com:8080/"
+no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+
+HTTP_PROXY="http://myproxy.server.com:8080/"
+HTTPS_PROXY="http://myproxy.server.com:8080/"
+FTP_PROXY="http://myproxy.server.com:8080/"
+NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"
+
+then,
+sudo netplan apply
+
+##apt-get proxy
+Create this file
+/etc/apt/apt.conf.d/proxy
+Acquire::http::Proxy "http://proxy:8080";
+Acquire::https::Proxy "http://proxy:8080";
+Acquire::ftp::Proxy "http://proxy:8080";
+
+##wget proxy
+system vide via the /etc/wgetrc or for the user only with the ~/.wgetrc
+
+sudo vim /etc/wgetrc 
+use_proxy=yes
+http_proxy=http://proxy:8080
+ftp_proxy=http://proxy:8080
+https_proxy=http://proxy:8080
+
+##add user
+adduser username
+usermod -aG sudo username   <------this adds user to sudo
+
+##make Alt-Tab work with host machine
+VirtualBox: File -> Preferences -> Input -> uncheck "Auto Capture Keyboard"
+
+##Add to sudo
+vi /etc/sudoers
+add new line:
+my_username ALL=(ALL:ALL)  ALL
+
+##apt repo
+sudo apt-get install software-properties-common
+sudo vim  /etc/apt/sources.list
+sudo apt-get update
+
+##other programs
+su
+apt install mc ranger git highlight unzip ctags curl  libperl-dev libx11-dev
+
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+##Ripgrep
+Download and unzip rg to ~/progs/
+In .bashrc -->   PATH=$PATH:~/progs/
+https://github.com/BurntSushi/ripgrep/releases/download/0.6.0/ripgrep-0.6.0-i686-unknown-linux-musl.tar.gz
+
+##Ranger
+ranger --copy-config=scope
+ranger --copy-config=all
+vi /home/$USER/.config/ranger/rc.conf
+set colorscheme solarized
+
+Add this in .bashrc
+export EDITOR=vim
+
+~/.config/ranger/rc.conf
+map <F12> exit
+map <C-p> fzf_select
+map <C-f> fzf_project_select
+set show_hidden true
+map gs cd /abc/def/src
+
+
+##Autologin
+su
+vi /etc/lightdm/lightdm.conf
+
+[SeatDefaults]
+autologin-user=my_username
+autologin-user-timeout=0
+
+reboot
+
+##Guest Additions
+
+sudo apt install virtualbox-guest-x11
+sudo VBoxClient --draganddrop
+sudo VBoxClient --clipboard
+
+if not...try..
+
+su
+apt install build-essential module-assistant
+m-a prepare
+
+sudo dnf install -y dkms kernel-devel kernel-devel-$(uname -r)
+
+for ubuntu based
+sudo apt-get install -y dkms build-essential linux-headers-generic linux-headers-$(uname -r)
+
+Insert Guest Additions ISO:
+Expand menu Devices and click on Insert Guest Additions CD image...
+It should mount automatically, but if for any reason it doesn't:
+mount /media/cdrom
+
+sh /media/cdrom/VBoxLinuxAdditions.run
+reboot
+
+
+##Check UTF
+wget https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt
+cat UTF*
+
+##Get noto font
+https://noto-website.storage.googleapis.com/pkgs/NotoMono-hinted.zip
+
+
+##Copy-paste has strange chars
+1. Enable bracketed paste: printf "\e[?2004h"
+2. Wait for paste to start: you’ll see \e[200~ on STDIN.
+3. Wait for paste to stop: you’ll see \e[201~ on STDIN.
+Disable bracketed paste: printf "\e[?2004l"
+
+##vim
+###vim-plug
+
+---> for .vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+---> for .nvim
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+sudo apt-get install python3-venv 
+
+##fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+#ssh key pair
+
+ssh-keygen -t rsa
+
+From host ~/.ssh/id_rsa.pub 
+to remote ~/.ssh/authorized_keys
+
+## shared folder Auto-Mount through Virtual Box Manager
+In case we enabled auto-mounting on creating a shared folder from the Virtual Box Manager those shared folders will automatically be mounted in the guest with mount point /media/sf_<name_of_folder>. To have access to these folders users in the guest need to be a member of the group vboxsf.
+
+sudo usermod -aG vboxsf userName
+The user will need to logout and log back in to see their new group added.

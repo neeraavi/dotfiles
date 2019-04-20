@@ -1,0 +1,77 @@
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install lxde
+#choose --> [lightdm]/gdm3
+
+#------vmbox------
+sudo apt install build-essential dkms linux-headers-$(uname -r)
+sudo reboot
+
+cd /media/VBox_...
+sudo ./VBoxLinuxAdditions.run
+
+
+#------ssh---------
+sudo apt-get install openssh-server
+#go to the Network settings and click the Port Forwarding button. Add a new Rule. As the rule name, insert "ssh". As "Host port", insert 3022. As "Guest port", insert 22. Everything else of the rule can be left blank.
+
+ssh -p 3022 iyer@127.0.0.1
+sudo apt-get install git curl wget mc ranger highlight unzip ctags libperl-dev libx11-dev tree python3-venv ranger tmux
+#git clone https://github.com/neeraavi/dotfiles.git
+git clone https://github.com/neeraavi/linux
+
+mkdir ~/tmp
+mkdir -p ~/progs/bin
+chmod +x /home/$USER/dotfiles/remDupes
+
+mv .bashrc .bashrc-default
+ln -s dotfiles/aliases .aliases
+ln -s dotfiles/functions .functions
+ln -s dotfiles/exports .exports
+ln -s dotfiles/bashrc .bashrc
+ln -s dotfiles/bash_profile .bash_profile
+ln -s dotfiles/aliases-off .aliases-off
+ln -s dotfiles/tmux.conf .tmux.conf
+ln -s dotfiles/ctagsignore .ctagsignore
+ln -s dotfiles/nvimrc .nvimrc
+mkdir -p ~/.config/nvim
+echo 'source ~/.nvimrc' > ~/.config/nvim/init.vim
+
+mkdir -p ~/.config/ranger
+echo 'map <F12> exit' >> ~/.config/ranger/rc.conf
+echo 'map <C-p> fzf_select' >> ~/.config/ranger/rc.conf
+echo 'map <C-f> fzf_project_select' >> ~/.config/ranger/rc.conf
+echo 'set show_hidden true' >> ~/.config/ranger/rc.conf
+echo '#set use_preview_script false' >> ~/.config/ranger/rc.conf
+
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+
+#-------to download-------
+cd ~/tmp
+
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+tar -zxvf nvim-linux64.tar.gz
+mv nvim-linux64/* ~/progs/
+rm -rf ~/tmp/nvim*
+#:PlugInstall
+#PythonSupportInitPython3
+
+wget https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep-11.0.1-x86_64-unknown-linux-musl.tar.gz
+tar -zxvf ripgrep-11.0.1-x86_64-unknown-linux-musl.tar.gz
+cp ripgrep-11.0.1-x86_64-unknown-linux-musl/rg ~/progs/bin
+rm -rf ~/tmp/ripgrep*
+
+##auto login ... update username below
+echo '[SeatDefaults]' >> ~/tmp/a.txt
+echo 'autologin-user=iyer' >> ~/tmp/a.txt
+echo 'autologin-user-timeout=0' >> ~/tmp/a.txt
+sudo mv ~/tmp/a.txt /etc/lightdm/lightdm.conf
+
+sudo reboot
