@@ -175,3 +175,7 @@ In case we enabled auto-mounting on creating a shared folder from the Virtual Bo
 
 sudo usermod -aG vboxsf userName
 The user will need to logout and log back in to see their new group added.
+
+##------apt-get behing proxy------ 
+ /etc/apt/apt.conf, add the line:
+Acquire::http::Proxy "http://MYDOMAIN\MYNAME:MYPASS@MY.PROXY.COM:MYPORT";
