@@ -70,15 +70,27 @@ sudo apt-get update
 
 ##other programs
 su
-apt install mc ranger git highlight unzip ctags curl  libperl-dev libx11-dev
+ins mc ranger git highlight unzip ctags curl  libperl-dev libx11-dev
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
+## fd
+wget https://github.com/sharkdp/fd/releases/download/v8.1.1/fd-v8.1.1-i686-unknown-linux-musl.tar.gz
+tar -zxvf fd-v8.1.1-i686-unknown-linux-musl.tar.gz 
+mv fd-v8.1.1-i686-unknown-linux-musl/fd ~/progs/bin/
+rm -rf fd-v8.1.1-i686-unknown-linux-musl*
+
 ##Ripgrep
 Download and unzip rg to ~/progs/
-In .bashrc -->   PATH=$PATH:~/progs/
-https://github.com/BurntSushi/ripgrep/releases/download/0.6.0/ripgrep-0.6.0-i686-unknown-linux-musl.tar.gz
+cd tmp
+wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep-12.1.1-x86_64-unknown-linux-musl.tar.gz
+tar -zxvf ripgrep-12.1.1-x86_64-unknown-linux-musl.tar.gz
+cp ripgrep-12.1.1-x86_64-unknown-linux-musl/rg ~/progs/bin/
+rm -rf ripgrep-12.1.1-x86_64-unknown-linux-musl
+
+In .bashrc -->   PATH=$PATH:~/progs/bin
+
 
 ##Ranger
 ranger --copy-config=scope
@@ -173,7 +185,7 @@ to remote ~/.ssh/authorized_keys
 ## shared folder Auto-Mount through Virtual Box Manager
 In case we enabled auto-mounting on creating a shared folder from the Virtual Box Manager those shared folders will automatically be mounted in the guest with mount point /media/sf_<name_of_folder>. To have access to these folders users in the guest need to be a member of the group vboxsf.
 
-sudo usermod -aG vboxsf userName
+sudo usermod -aG vboxsf $USER
 The user will need to logout and log back in to see their new group added.
 
 ##------apt-get behing proxy------ 
