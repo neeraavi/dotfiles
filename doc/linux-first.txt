@@ -1,6 +1,6 @@
 ##
 mkdir tmp
-chmod +x /home/neeraavi/dotfiles/remDupes
+chmod +x /home/$USER/dotfiles/remDupes
 
 ln -s dotfiles/aliases .aliases
 ln -s dotfiles/functions .functions
