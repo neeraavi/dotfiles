@@ -44,4 +44,4 @@ bld/
 #cloning
 git clone git@github.com:neeraavi/fourier.git
 git clone https://github.com/neeraavi/fourier.git
-
+git clone git@github.com:neeraavi/dotfiles.git
