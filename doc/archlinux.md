@@ -183,5 +183,16 @@ patch -Np1 -i st-font2-20190416-ba72400.diff
 
  config.def.h 
  
+# guestbox additions
+All you have to do is install virtualbox-guest-utils with pacman. Don't do anything else. Don't even try to install Virtualbox Guest Utils from Virtualbox's menu, and don't mount the iso, that method works with many of the distros, but not with ArchLinux.
 
+sudo pacman -S virtualbox-guest-utils
+sudo VBoxClient-all
+sudo systemctl  enable --now vboxservice.service
+
+# shared folder
+just select in vbox, it will appear in /media/, but only with root access
+To enable permission for regular user
+sudo usermod -aG vboxsf sn
+sudo chown -R sn /media/sf_tmp/
   
