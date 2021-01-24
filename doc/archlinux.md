@@ -198,4 +198,46 @@ just select in vbox, it will appear in /media/, but only with root access
 To enable permission for regular user
 sudo usermod -aG vboxsf sn
 sudo chown -R sn /media/sf_tmp/
+
+# gcal
+
+    git clone https://aur.archlinux.org/gcal.git
+    cd gcal
+    makepkg -si
+    
+    alias cal="gcal -K --starting-day=1"
+    alias hol="gcal -n -q DE_BW"
+    alias moon='gcal -#0*d1#999_%O_%Z'
+    alias sun='gcal --resource-file=$HOME/.gcal/astronomical -H no -ox'
+    
+    mkdir ~/.gcal/
+    v ~/.gcal/astronomical
+    
+    ;--------------------------------------------------------------
+    ;Ulm latitude 48.4011N
+    ;Ulm longitude 9.9876E for gcal add 2 trailing zeros
+    ;Ulm height above sea level 478m
+    ;Winter time Ulm: GMT+1 Summer time Ulm: GMT+2
+    $w=+60
+    $s=+120
+    $v=%2%4
+    $p=0*d1#999
+    $c=+48.4011+009.9876
+    $x=~Sunrise    %o$c,$w | Sunset %s$c,$w ~Daylength %u$c,$w | Nightlength %z$c,$w
+    $y=~Sunrise    %o$c,$s | Sunset %s$c,$s ~Daylength %u$c,$s | Nightlength %z$c,$s
+    
+    ; Winter time selector
+    $b=%e#1980 %i0@a#0@b-1
+    b=10sun9
+    
+    ; Summer time selector
+    $a=%e#1980 %e0@a#0@b-1
+    a=03sun9
+    
+    ; What will be written, through selectors.
+    $p $a $x
+    $p $b $y
+    
+    ;--------------------------------------------------------------
+
   
