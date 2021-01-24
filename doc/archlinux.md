@@ -155,7 +155,10 @@ git clone https://gitlab.com/dwt1/wallpapers.git
 # xrandr -s to show settings and choose
 
 vim .bash_profile
-[[ $(fgconsole 2> /dev/null) == 1 ]] && exec startx -- vt1
+
+    if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+     startx
+    fi
 
 cd ~
 cp /etc/X11/xinit/xinitrc .xinitrc
