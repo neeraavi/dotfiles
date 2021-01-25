@@ -242,5 +242,16 @@ To enable permission for regular user
     ;--------------------------------------------------------------
 
 # behind proxy, to get pacman working
+
  uncomment the Xfercommand for wget in the /etc/pacman.conf and insert my proxy-settings to /etc/wgetrc - dont forget to set use_proxy=on uncomment the 3 lines for proxy.
+
+# autologin 
+      mkdir -p /etc/systemd/system/getty@tty1.service.d/
+      touch /etc/systemd/system/getty@tty1.service.d/override.conf
+
+      [Service]
+      ExecStart=
+      ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM
+      
+   NOTE: The empty line is important! (admittedly I'm not sure why...) 
   
