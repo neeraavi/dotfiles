@@ -85,7 +85,7 @@ vim /etc/hosts
       passwd sn #set that user's password
       usermod -aG wheel,audio,video,optical,storage sn
 
-####sudo
+#### sudo
 
       pacman -S sudo
       visudo #uncomment wheel grp
