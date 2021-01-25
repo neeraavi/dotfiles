@@ -74,22 +74,23 @@ vim  /etc/hostname
 
 vim /etc/hosts
 
-127.0.0.1   localhost
-::1         localhost
-127.0.1.1   archvbox.localdomain  localhost
+      127.0.0.1   localhost
+      ::1         localhost
+      127.0.1.1   archvbox.localdomain  localhost
 
 #### Users and passwords
 
-passwd  #set root pass
-useradd -m sn #make another user
-passwd sn #set that user's password
-usermod -aG wheel,audio,video,optical,storage sn
+      passwd  #set root pass
+      useradd -m sn #make another user
+      passwd sn #set that user's password
+      usermod -aG wheel,audio,video,optical,storage sn
 
 ####sudo
-pacman -S sudo
-visudo #uncomment wheel grp
-sudo vim /etc/vsconsole.conf
-  KEYMAP=de
+
+      pacman -S sudo
+      visudo #uncomment wheel grp
+      sudo vim /etc/vsconsole.conf
+           KEYMAP=de
 
 6. GRUB
 ----------------
@@ -103,55 +104,56 @@ grub-mkconfig -o /boot/grub/grub.cfg
 7. Networking
 ----------------
 
-pacman -S networkmanager
-systemctl enable NetworkManager
+      pacman -S networkmanager
+      systemctl enable NetworkManager
 
 # guestbox additions
 All you have to do is install virtualbox-guest-utils with pacman. Don't do anything else. Don't even try to install Virtualbox Guest Utils from Virtualbox's menu, and don't mount the iso, that method works with many of the distros, but not with ArchLinux.
 
-sudo pacman -S virtualbox-guest-utils
-sudo VBoxClient-all
-sudo systemctl  enable --now vboxservice.service
+      sudo pacman -S virtualbox-guest-utils
+      sudo VBoxClient-all
+      sudo systemctl  enable --now vboxservice.service
 
 # shared folder
 just select in vbox, it will appear in /media/, but only with root access
 To enable permission for regular user
-sudo usermod -aG vboxsf sn
-sudo chown -R sn /media/sf_tmp/
+
+      sudo usermod -aG vboxsf sn
+      sudo chown -R sn /media/sf_tmp/
 
 8. Reboot
 ----------------
 
-exit #the chroot by typing "exit"
-umount -l /mnt #unmounts /mnt
-shutdown now # reboot (or shutdown now if doing this in VirtualbBox)
+      exit #the chroot by typing "exit"
+      umount -l /mnt #unmounts /mnt
+      shutdown now # reboot (or shutdown now if doing this in VirtualbBox)
 Remember to detach the ISO in VirtualBox before reboot.
 
 
 # dwm
 
 ## get packages
-sudo pacman -S reflector
-reflector --country Germany --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-sudo pacman -Syy
-sudo pacman -S base-devel xorg-server xorg-xinit xorg-xrandr xorg-xsetroot firefox nitrogen picom terminus-font git wget libx11  libxft
+      sudo pacman -S reflector
+      reflector --country Germany --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+      sudo pacman -Syy
+      sudo pacman -S base-devel xorg-server xorg-xinit xorg-xrandr xorg-xsetroot firefox nitrogen picom terminus-font git wget libx11  libxft
 
-git clone https://aur.archlinux.org/yay-git.git
-cd yay-git
-makepkg -si
+      git clone https://aur.archlinux.org/yay-git.git
+      cd yay-git
+      makepkg -si
 
-yay -S  st-distrotube-git dmenu-distrotube-git nerd-fonts-mononoki
-#yay -S dwm-distrotube-git
+      yay -S  st-distrotube-git dmenu-distrotube-git nerd-fonts-mononoki
+      #yay -S dwm-distrotube-git
 
-#git clone git://git.suckless.org/st   #from above yay
-#git clone git://git.suckless.org/dmenu #from above yay
-#git clone git://git.suckless.org/dwm #no idea about shortcuts from above
-wget https://dl.suckless.org/dwm/dwm-6.2.tar.gz
-tar -zxvf dwm-6.2.tar.gz
-cd dwm-6.2
-sudo make clean install
+      #git clone git://git.suckless.org/st   #from above yay
+      #git clone git://git.suckless.org/dmenu #from above yay
+      #git clone git://git.suckless.org/dwm #no idea about shortcuts from above
+      wget https://dl.suckless.org/dwm/dwm-6.2.tar.gz
+      tar -zxvf dwm-6.2.tar.gz
+      cd dwm-6.2
+      sudo make clean install
 
-git clone https://gitlab.com/dwt1/wallpapers.git
+      git clone https://gitlab.com/dwt1/wallpapers.git
 # xrandr -s to show settings and choose
 
 vim .bash_profile
@@ -160,44 +162,43 @@ vim .bash_profile
      startx
     fi
 
-cd ~
-cp /etc/X11/xinit/xinitrc .xinitrc
+      cd ~
+      cp /etc/X11/xinit/xinitrc .xinitrc
 scroll to end, delete last 5 lines and add lines below
-
-setxkbmap de &                               # key map
-xrandr --output Virtual1 --mode 1920x1200 &  # resolution
-nitrogen --restore &                         # wallpaper
-picom -f &                                   # compositor
-exec dwm
+      
+      setxkbmap de &                               # key map
+      xrandr   --output Virtual1 --mode 1920x1200 &  # resolution
+      nitrogen --restore &                         # wallpaper
+      picom -f &                                   # compositor
+      exec dwm
 
 
 # st
 
-sudo cp config.def.h config.h
-
-wget https://st.suckless.org/patches/clipboard/st-clipboard-0.8.3.diff
-patch -Np1 -i st-clipboard-0.8.3.diff
-
-wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
-patch -Np1 -i st-alpha-0.8.2.diff
-wget https://st.suckless.org/patches/font2/st-font2-20190416-ba72400.diff
-patch -Np1 -i st-font2-20190416-ba72400.diff
-
-
- config.def.h 
+    sudo cp config.def.h config.h
+    
+    wget https://st.suckless.org/patches/clipboard/st-clipboard-0.8.3.diff
+    patch -Np1 -i st-clipboard-0.8.3.diff
+    
+    wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
+    patch -Np1 -i st-alpha-0.8.2.diff
+    wget https://st.suckless.org/patches/font2/st-font2-20190416-ba72400.diff
+    patch -Np1 -i st-font2-20190416-ba72400.diff
+    
+    config.def.h 
  
 # guestbox additions
 All you have to do is install virtualbox-guest-utils with pacman. Don't do anything else. Don't even try to install Virtualbox Guest Utils from Virtualbox's menu, and don't mount the iso, that method works with many of the distros, but not with ArchLinux.
 
-sudo pacman -S virtualbox-guest-utils
-sudo VBoxClient-all
-sudo systemctl  enable --now vboxservice.service
+    sudo pacman -S virtualbox-guest-utils
+    sudo VBoxClient-all
+    sudo systemctl  enable --now vboxservice.service
 
 # shared folder
 just select in vbox, it will appear in /media/, but only with root access
 To enable permission for regular user
-sudo usermod -aG vboxsf sn
-sudo chown -R sn /media/sf_tmp/
+    sudo usermod -aG vboxsf sn
+    sudo chown -R sn /media/sf_tmp/
 
 # gcal
 
@@ -240,4 +241,6 @@ sudo chown -R sn /media/sf_tmp/
     
     ;--------------------------------------------------------------
 
+# behind proxy, to get pacman working
+ uncomment the Xfercommand for wget in the /etc/pacman.conf and insert my proxy-settings to /etc/wgetrc - dont forget to set use_proxy=on uncomment the 3 lines for proxy.
   
