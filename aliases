@@ -3,7 +3,7 @@
 alias ex='atool -x'
 alias r="lf"
 alias l="ls -lrt --color"
-alias l="exa -l -s changed --git --header"
+alias l="exa -l -s changed --git --header --tree"
 alias la="l -a"
 alias x="exit"
 alias v="nvim"
