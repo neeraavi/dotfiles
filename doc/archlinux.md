@@ -224,7 +224,7 @@ autologin
 
 All you have to do is install virtualbox-guest-utils with pacman. Don't do anything else. Don't even try to install Virtualbox Guest Utils from Virtualbox's menu, and don't mount the iso, that method works with many of the distros, but not with ArchLinux.
 
-    sudo pacman -S virtualbox-guest-utils atool tree
+    sudo pacman -S virtualbox-guest-utils atool tree exa
     sudo VBoxClient-all
     sudo systemctl  enable --now vboxservice.service
 

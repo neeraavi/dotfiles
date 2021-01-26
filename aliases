@@ -1,7 +1,9 @@
 # vim: set ft=sh: -*- mode: sh -*-
 
 alias ex='atool -x'
+alias r="lf"
 alias l="ls -lrt --color"
+alias l="exa -l -s changed --git --header"
 alias la="l -a"
 alias x="exit"
 alias v="nvim"
@@ -28,7 +30,6 @@ alias tmd="tmux detach"
 
 alias ..="cd .."
 alias ...="cd ..; cd .."
-alias r='ranger'
 alias u="rxvt-unicode"
 
 #linux
