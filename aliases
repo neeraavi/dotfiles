@@ -1,5 +1,6 @@
 # vim: set ft=sh: -*- mode: sh -*-
 
+alias ex='atool -x'
 alias l="ls -lrt --color"
 alias la="l -a"
 alias x="exit"

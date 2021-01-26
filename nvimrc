@@ -94,7 +94,9 @@ let g:python_support_python2_require = 0
 
 set rtp+=~/.fzf
 call plug#begin('~/.nvim/plugged')
-Plug 'roxma/python-support.nvim'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'ptzz/lf.vim'
+"Plug 'roxma/python-support.nvim'
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
 Plug 'bfrg/vim-cpp-modern'
@@ -183,10 +185,10 @@ au FocusGained,BufEnter * :silent! !
 
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 
-"set background=light
-"colo PaperColor
-set background=dark
-colo badwolf
+set background=light
+colo PaperColor
+"set background=dark
+"colo badwolf
 
 "---grep word under cursor ---
 command! -bang -nargs=* Rg
