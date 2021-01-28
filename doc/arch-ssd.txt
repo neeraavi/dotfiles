@@ -1,0 +1,443 @@
+1. German Keyboard
+-------------
+
+loadkeys de-latin1
+localectl list-keymaps| grep de
+
+
+2. Internet
+-------------
+
+ip a   #2 LAN
+ping google.com
+
+In case of wifi:
+wifi-menu
+
+3. set time
+-------------
+
+timedatectl set-ntp true
+timedatectl status
+
+3a. Mirrors
+
+pacman –Syy
+pacman –S reflector
+sudo reflector --country Germany --age 6 --sort rate --save /etc/pacman.d/mirrorlist
+pacman –Syy
+
+
+4. Partitioning
+-----------------
+
+lsblk
+To see more details:
+cfdisk /dev/sda where win is installed
+If installing on same SSD:
+ 
+
+
+Otherwise, choose /dev/sdab (new SSD)
+New SSD sdb where to install linux
+Select free space – create 2 partitions
+
+Swap: 2x the size of memory 32G
+Primary
+Select -> type -> 92 swap
+
+Root partition – rest of space
+Primary
+Linux
+Write
+Quit
+
+lsblk
+
+So, swap is on sdb1 and / is on sdb2
+
+Now make filesystem (format partitions):
+
+mkswap /dev/sdb1
+swapon /dev/sdb1
+
+mkfs.ext4 /dev/sdb2
+
+Mount partitions
+
+mount /dev/sdb2 /mnt 
+
+To access windows partition in sda4
+mkdir /mnt/windows
+mount /dev/sdax /mnt/windows
+-- do same for d: drive --
+
+ 
+
+
+
+ 
+Base Install 
+
+pacstrap /mnt base linux linux-firmware vim intel-ucode
+genfstab -U /mnt T >> /mnt/etc/fstab # -U use uuid 
+cat /mnt/etc/fstab
+
+ 
+
+
+Chroot
+
+arch-chroot /mnt #(change into root directory of our new installation)
+
+Set locales
+## Timezone
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+hwclock --systohc #(sets the hardware clock)
+
+Locale
+vim /etc/locale.gen
+   uncomment en_US.UTF-8 UTF-8
+
+locale-gen
+
+echo "LANG=en_US.UTF-8 " >> /etc/locale.conf
+echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
+
+hostname
+vim  /etc/hostname
+    archvbox
+
+vim /etc/hosts
+
+      127.0.0.1   localhost           #ip4
+      ::1         localhost           #ip6      
+      127.0.1.1   archvbox.localdomain  archvbox
+
+     
+ 
+    
+6. GRUB
+----------------
+pacman -S 
+grub 
+os-prober           #detect other OS
+ntfs-3g             #ntfs for mounting windows partitions
+dosfstools mtools   #fat
+networkmanager network-manager-applet 
+base-devel linux-headers 
+cups                #printer  
+git reflector dialog 
+xdg-util xdg-user-dirs
+
+
+# wifi
+# pacman –S wireless_tools wpa_supplicant
+
+# bluetooth
+# pacman –S bluez bluez-utils pulseaudio-bluetooth
+
+
+# hw with bios(i386), disk name(sda, sdb etc, not partition)
+
+grub-install --target=i386-pc  /dev/sdb –recheck –debug
+grub-mkconfig -o /boot/grub/grub.cfg
+
+
+7. Networking
+----------------
+      pacman -S networkmanager network-manager-applet
+      systemctl enable NetworkManager
+ systemctl enable org.cups.cupsd
+
+     #systemctl enable bluetooth
+#systemctl enable sshd
+
+Users and passwords
+
+      passwd  #set root pass
+
+#make another user
+      useradd -m sn 
+      passwd sn #set that user's password
+      usermod -aG wheel,audio,video,optical,storage sn
+
+## sudo
+
+      pacman -S sudo
+      visudo #uncomment wheel grp
+
+
+
+8. Reboot
+----------------
+
+exit #the chroot by typing "exit"
+umount –l -a
+reboot 
+Remember to detach the ISO in VirtualBox before reboot.
+
+
+After reboot:
+
+Check 
+ip a
+
+If wifi:
+nmtui #select and activate wifi conenction
+
+
+9. Graphics driver
+---------------------------
+
+sudo pacman -S xf86-video-vmware #VMBOX
+
+sudo pacman -S xf86-video-intel #real HW
+     
+
+display manager
+sudo pacman -S xorg gdm
+systemctl enable gdm
+
+gnome
+sudo pacman -S gnome gnome-extra xdg-utils
+sudo pacman -S libreoffice
+
+yay
+      git clone https://aur.archlinux.org/yay-git.git
+      cd yay-git
+      makepkg –si
+
+fonts
+      yay -S  nerd-fonts-mononoki
+
+::copy over windows fonts from mount
+sudo mkdir /usr/share/windows-fonts
+sudo cp /windows/Windows/Fonts/* /usr/share/windows-fonts/
+sudo chmod 644 /usr/share/windows-fonts/* 
+fc-cache –f
+
+timeshift – backup
+yay –S timeshift
+
+
+wallpapers
+    sudo pacman –S archlinux-wallpapers	
+    git clone https://gitlab.com/dwt1/wallpapers.git
+
+enable SSD cleanup
+sudo systemctl enable fstrim.timer      
+      
+chromium
+    sudo pacman –S chromium	
+
+dwm, dmenu, st
+
+sudo pacman -S base-devel linux-headers xorg-server xorg-xinit xorg-xrandr xorg-xsetroot firefox nitrogen picom terminus-font git wget libx11  libxft autocutsel
+
+
+### dmenu
+
+      git clone https://gitlab.com/dwt1/dmenu-distrotube.git
+      cd dmenu-distrotube
+      change st to alacritty
+         // static const char *termcmd[]  = { "alacritty", "-t", "Terminal", NULL };
+      makepkg -cf
+      sudo pacman -U *.pkg.tar.zst
+
+### dwm      
+      First:
+      yay -S dwm-distrotube-git dwmblocks-distrotube-git (to get correct dependencies)
+      
+      Then:
+      git clone https://gitlab.com/dwt1/dwm-distrotube.git
+      cd dwm-distrotube
+      change Mod4Mask(windows key) to Mod1Mask(alt)
+      makepkg -cf
+      sudo pacman -U *.pkg.tar.zst 
+
+
+For official package (if needed) 
+      wget https://dl.suckless.org/dwm/dwm-6.2.tar.gz
+      tar -zxvf dwm-6.2.tar.gz
+      rm dwm-6.2.tar.gz
+      cd dwm-6.2
+      sudo make clean install
+      
+
+
+
+10: xinitrc
+---------------------------
+vim .bash_profile
+
+    if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+     startx
+    fi
+
+      run xrandr -s to show settings and choose
+      
+      cd ~
+      cp /etc/X11/xinit/xinitrc .xinitrc
+scroll to end, delete last 5 lines and add lines below
+      
+      setxkbmap de &                               # key map
+      VBoxClient-all &
+      xrandr   --output Virtual1 --mode 1920x1200 &  # resolution
+      nitrogen --restore &                         # wallpaper
+      picom -f &                                   # compositor
+      autocutsel -fork &                           # copy-paste
+      autocutsel -selection PRIMARY -fork &
+      exec dwm
+
+
+autologin 
+-----------------
+
+      sudo mkdir -p /etc/systemd/system/getty@tty1.service.d/
+      sudo vim /etc/systemd/system/getty@tty1.service.d/override.conf
+
+      [Service]
+      ExecStart=
+      ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM
+      
+   NOTE: The empty line is important! (admittedly I'm not sure why...) 
+   
+
+11.  guestbox additions
+-----------------------------
+
+All you have to do is install virtualbox-guest-utils with pacman. Don't do anything else. Don't even try to install Virtualbox Guest Utils from Virtualbox's menu, and don't mount the iso, that method works with many of the distros, but not with ArchLinux.
+
+    sudo pacman -S virtualbox-guest-utils atool tree exa
+    sudo VBoxClient-all
+    sudo systemctl  enable --now vboxservice.service
+
+12.  shared folder
+-------------------------
+
+just select in vbox, it will appear in /media/, but only with root access
+To enable permission for regular user
+    sudo usermod -aG vboxsf sn
+    sudo chown -R sn /media/sf_tmp/
+
+ 
+
+
+
+
+# behind proxy, to get pacman working
+
+ uncomment the Xfercommand for wget in the /etc/pacman.conf 
+ insert my proxy-settings to /etc/wgetrc 
+ dont forget to set use_proxy=on uncomment the 3 lines for proxy.
+
+  
+  
+
+# st (if needed)
+
+    #git clone git://git.suckless.org/st   #from above yay
+    #git clone git://git.suckless.org/dmenu #from above yay     
+    #git clone git://git.suckless.org/dwm #no idea about shortcuts from above
+      
+
+    sudo cp config.def.h config.h
+    
+    wget https://st.suckless.org/patches/clipboard/st-clipboard-0.8.3.diff
+    patch -Np1 -i st-clipboard-0.8.3.diff
+    
+    wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
+    patch -Np1 -i st-alpha-0.8.2.diff
+    wget https://st.suckless.org/patches/font2/st-font2-20190416-ba72400.diff
+    patch -Np1 -i st-font2-20190416-ba72400.diff
+    
+    config.def.h 
+    
+    
+# neeraavi   
+
+    cd 
+    mkdir -p progs/bin
+    git clone https://github.com/neeraavi/dotfiles.git
+    mkdir tmp
+    chmod +x /home/$USER/dotfiles/remDupes
+
+    ln -s dotfiles/aliases .aliases
+    ln -s dotfiles/functions .functions
+    ln -s dotfiles/exports .exports
+    rm .bashrc
+    ln -s dotfiles/bashrc .bashrc
+    #ln -s dotfiles/bash_profile .bash_profile
+    ln -s dotfiles/aliases-off .aliases-off
+    ln -s dotfiles/tmux.conf .tmux
+    ln -s dotfiles/ctagsignore .ctagsignore
+    ln -s dotfiles/wgetrc .wgetrc
+    sudo cp ~/.wgetrc /etc/wgetrc
+
+## nvim
+
+    ln -s dotfiles/nvimrc .nvimrc
+    mkdir -p ~/.config/nvim
+    echo 'source ~/.nvimrc' > ~/.config/nvim/init.vim
+
+
+# get progs
+
+## lf
+
+    cd ~/tmp
+    wget https://github.com/gokcehan/lf/releases/download/r19/lf-linux-amd64.tar.gz
+    ex lf-linux-amd64.tar.gz
+    rm lf-linux-amd64.tar.gz
+    mv lf ~/progs/bin/
+
+## nvim
+
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    
+    cd ~/tmp
+    wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz    
+    ex nvim-linux64.tar.gz    
+    rm nvim-linux64.tar.gz  
+    ln -s ~/tmp/nvim-linux64/bin/nvim ~/progs/bin/nvim
+        
+    
+## fzf
+
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install    
+
+## ripgrep
+    cd ~/tmp
+    wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep-12.1.1-x86_64-unknown-linux-musl.tar.gz
+    ex ripgrep*
+    cp ripgrep*/rg ~/progs/bin/
+    rm -rf ripgrep*
+    
+    cd ~/tmp
+    wget https://github.com/phiresky/ripgrep-all/releases/download/v0.9.6/ripgrep_all-v0.9.6-x86_64-unknown-linux-musl.tar.gz
+    ex ripgrep*
+    cp ripgrep*/rga ~/progs/bin/
+    rm -rf ripgrep_*
+
+# ssh key pair
+
+    ssh-keygen -t rsa
+
+From host ~/.ssh/id_rsa.pub 
+to remote ~/.ssh/authorized_keys    
+
+# alacritty config
+    cd 
+    mkdir -p .config/alacritty
+    cp /usr/share/doc/alacritty/example/alacritty.yml .config/alacritty/alacritty.yml
+    
+ copy colors from https://github.com/aaron-williamson/base16-alacritty/tree/master/colors to that file
+
+ 
+
+
+Control panel -> power buttons
+Disable Fast-startup on windows
