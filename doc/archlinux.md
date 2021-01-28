@@ -70,6 +70,8 @@ vim /etc/locale.gen
 
 locale-gen
 
+echo "KEYMAP=de-latin1" >> /etc/vsconsole.conf
+
 #### hostname
 vim  /etc/hostname
     archvbox
@@ -98,7 +100,7 @@ vim /etc/hosts
 6. GRUB
 ----------------
 
-pacman -S grub efibootmgr dosfstools os-prober mtools #if doing UEFI
+pacman -S grub efibootmgr dosfstools os-prober mtools #if doing UEFI efibootmgr
 mkdir /boot/EFI #if doing UEFI
 mount /dev/sda1 /boot/EFI  #Mount​ FAT32 EFI partition #if doing UEFI
 grub-install --target=x86_64-efi  --bootloader-id=grub_uefi --recheck #if doing UEFI
@@ -107,7 +109,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 7. Networking
 ----------------
 
-      pacman -S networkmanager
+      pacman -S networkmanager network-manager-applet
       systemctl enable NetworkManager
 
 # guestbox additions
@@ -139,9 +141,14 @@ Remember to detach the ISO in VirtualBox before reboot.
 ## get packages
 
       sudo pacman -S reflector
-      sudo reflector --country Germany --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+      sudo reflector --country Germany --age 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
       sudo pacman -Syy
-      sudo pacman -S base-devel xorg-server xorg-xinit xorg-xrandr xorg-xsetroot firefox nitrogen picom terminus-font git wget libx11  libxft autocutsel
+      sudo pacman -S base-devel linux-headers xorg-server xorg-xinit xorg-xrandr xorg-xsetroot firefox nitrogen picom terminus-font git wget libx11  libxft autocutsel
+      
+      sudo pacman -S cups #for printing
+      systemctl enable org.cups.cupsd
+      
+      sudo pacman -S ntfs-3g #for mounting windows partitions
 
       git clone https://aur.archlinux.org/yay-git.git
       cd yay-git
