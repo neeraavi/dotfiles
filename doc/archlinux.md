@@ -145,8 +145,10 @@ Remember to detach the ISO in VirtualBox before reboot.
       sudo pacman -Syy
       sudo pacman -S base-devel linux-headers xorg-server xorg-xinit xorg-xrandr xorg-xsetroot firefox nitrogen picom terminus-font git wget libx11  libxft autocutsel
       
-      sudo pacman -S cups #for printing
-      systemctl enable org.cups.cupsd
+      sudo pacman -S cups #for printing  #not on VM 
+      systemctl enable org.cups.cupsd    #not on VM  
+      
+      sudo pacman -S xf86-video-intel #not on VM
       
       sudo pacman -S ntfs-3g #for mounting windows partitions
 
