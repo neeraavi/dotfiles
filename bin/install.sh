@@ -7,14 +7,22 @@ mkdir -p progs/bin
 mkdir tmp
 chmod +x /home/$USER/dotfiles/remDupes
 
-ln -s dotfiles/aliases .aliases
-ln -s dotfiles/functions .functions
-ln -s dotfiles/exports .exports
+ln -s ~/dotfiles/aliases .aliases
+ln -s ~/dotfiles/functions .functions
+ln -s ~/dotfiles/exports .exports
 
 #check and then --> rm .bashrc
 rm .bashrc
-ln -s dotfiles/bashrc .bashrc
+ln -s ~/dotfiles/bashrc .bashrc
 source ~/.aliases
+
+mkdir -p ~/.config/lf
+cd ~/.config/lf
+ln -s ~/dotfiles/lfrc lfrc
+
+mkdir -p ~/.config/zathura
+cd ~/.config/zathura
+ln -s ~/dotfiles/zathurarc zathurarc
 
 ## nvim
 cd
@@ -28,14 +36,14 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 
 cd ~/tmp
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-ex nvim-linux64.tar.gz
+atool -x  nvim-linux64.tar.gz
 rm nvim-linux64.tar.gz
 ln -s ~/tmp/nvim-linux64/bin/nvim ~/progs/bin/nvim
 
 ## lf
 cd ~/tmp
 wget https://github.com/gokcehan/lf/releases/download/r19/lf-linux-amd64.tar.gz
-ex lf-linux-amd64.tar.gz
+atool -x lf-linux-amd64.tar.gz
 rm lf-linux-amd64.tar.gz
 mv lf ~/progs/bin/
 
@@ -45,14 +53,14 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 ## ripgrep
 cd ~/tmp
-wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep-12.1.1-x86_64-unk
-ex ripgrep*
+wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep-12.1.1-x86_64-unknown-linux-musl.tar.gz
+atool -x ripgrep*
 cp ripgrep*/rg ~/progs/bin/
 rm -rf ripgrep*
 
 cd ~/tmp
-wget https://github.com/phiresky/ripgrep-all/releases/download/v0.9.6/ripgrep_all-v0.9.6-x86_
-ex ripgrep*
+wget https://github.com/phiresky/ripgrep-all/releases/download/v0.9.6/ripgrep_all-v0.9.6-x86_64-unknown-linux-musl.tar.gz
+atool -x ripgrep*
 cp ripgrep*/rga ~/progs/bin/
 rm -rf ripgrep_*
 
