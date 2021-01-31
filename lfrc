@@ -1,0 +1,72 @@
+set previewer ~/.config/lf/preview
+set preview true
+
+set hidden true
+# set drawbox
+# set icons
+set ignorecase true
+# set ratios 1
+set ratios 1:2:3
+# set info size:time
+
+map . set hidden!
+map DD delete
+map r rename
+map p paste
+map x cut
+map y copy
+map gt cd  ~/tmp
+map gb cd /ddrive/iyer/gDrive/data/readingMaterial/sn/books/p1/
+map gp cd  ~/progs
+map <f-12> quit
+
+cmd fzf_jump ${{
+    res="$(find . -maxdepth 1 | fzf --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
+    if [ -d "$res" ]; then
+        cmd="cd"
+    else 
+        cmd="select"                                                       
+    fi
+    lf -remote "send $id $cmd \"$res\""
+}}
+map f :fzf_jump
+map <c-e> $/home/sn/progs/bin/nvim $(fzf)
+
+# cmds/functions
+#image/vnd.djvu|application/pdf|application/octet-stream) setsid -f zathura $fx >/dev/null 2>&1 ;;
+cmd open ${{
+    case $(file --mime-type $f -b) in
+	image/vnd.djvu|application/pdf|application/octet-stream) zathura $f  ;;
+        text/*) $EDITOR $fx;;
+	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
+	image/svg+xml) display -- $f ;;
+	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" | sxiv -aio 2>/dev/null | lf-select ;;
+	audio/*) mpv --audio-display=no $f ;;
+	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+	application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+        *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+    esac
+}}
+#cmd open ${{
+#    case $(file --mime-type "$f" -bL) in
+#        text/*|application/json) $EDITOR "$f";;
+#        video/*|image/*|application/pdf) xdg-open "$f" & disown;;
+#        *) xdg-open "$f" ;;
+#    esac
+##}}
+#
+cmd openterm ${{
+    st &
+}}
+map ot openterm
+
+
+cmd mkdir ${{
+    printf "Directory Name: "
+    read ans
+    mkdir $ans
+}}
+map md mkdir
+
+cmd unarchive atool -x "$f"
+map ex unarchive
