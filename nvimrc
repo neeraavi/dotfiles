@@ -185,10 +185,10 @@ au FocusGained,BufEnter * :silent! !
 
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 
-set background=light
-colo PaperColor
-"set background=dark
-"colo badwolf
+"set background=light
+"colo PaperColor
+set background=dark
+colo badwolf
 
 "---grep word under cursor ---
 command! -bang -nargs=* Rg

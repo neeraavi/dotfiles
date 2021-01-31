@@ -1,4 +1,4 @@
-source ~/.aliases-off
+#source ~/.aliases-off
 source ~/.exports
 source ~/.aliases
 source ~/.functions

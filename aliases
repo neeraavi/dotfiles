@@ -1,9 +1,9 @@
 # vim: set ft=sh: -*- mode: sh -*-
-
 alias ex='atool -x'
 alias r="lf"
 alias l="ls -lrt --color"
-alias l="exa -l -s changed --git --header --tree"
+alias l="exa -l -s changed --git --header"
+alias ll="lfrun"
 alias la="l -a"
 alias x="exit"
 alias v="nvim"
@@ -29,14 +29,15 @@ alias tma="tmux attach"
 alias tmd="tmux detach"
 
 alias ..="cd .."
-alias ...="cd ..; cd .."
+alias ...="cd ../.."
 alias u="rxvt-unicode"
 
 #linux
-alias ins="sudo apt-get install"
+alias ins="sudo pacman -S "
 
 #git
 alias gi="g -i "
+alias gc="git clone "
 alias gs="git status"
 alias gd="git diff"
 alias gsu="git submodule update --init --recursive"

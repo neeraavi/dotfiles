@@ -520,3 +520,9 @@ sudo systemctl start sshd
 sudo systemctl enable sshd
 ```
 
+r--r--  2.1k sn   11 Oct  2019   -- st-selectioncolors-0.8.2.diff
+.rw-r--r--  1.2k sn    8 Dec  2020   -- st-delkey-20201112-4ef0cbd.diff
+.rw-r--r--   622 sn    9 Nov  2019   -- st-scrollback-mouse-20191024-a2c479c.diff
+.rw-r--r--  8.9k sn    8 Dec  2020   -- st-scrollback-20201205-4ef0cbd.diff
+.rw-r--r--  2.0k sn   26 Apr  2020   -- st-scrollback-mouse-altscreen-20200416-5703aa0.diff
+
