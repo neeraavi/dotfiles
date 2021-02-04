@@ -1,0 +1,31 @@
+
+CARD_1="pci-0000_00_1b.0"
+CARD_1_PROFILE_1="analog-stereo" 
+
+CARD_2="usb-GN_Audio_A_S_Jabra_EVOLVE_30_II_00006110D62207-00"
+CARD_2_PROFILE_1="analog-stereo" 
+
+# Read the user's input
+CHOICE="${@}"
+choice() {
+    if   [ "$CHOICE" == 1 ]; then CARD="$CARD_1"; PROF="$CARD_1_PROFILE_1" # speaker
+    elif [ "$CHOICE" == 2 ]; then CARD="$CARD_2"; PROF="$CARD_2_PROFILE_1" # jabra headphone
+    else
+        echo -e "\nYou should choice between:"
+        echo -e "\n\t[1] Sepaker\n\t[2] Jabra Headphone\n"
+        echo -n "Your choice: "; read CHOICE; echo; choice; # call the function again
+    fi
+}; choice # call the function
+
+# Set the choosen card profile as sink
+pactl set-card-profile "alsa_card.${CARD}" "output:${PROF}";
+
+# Set the default sink to the new one
+pacmd set-default-sink "alsa_output.${CARD}.${PROF}" &> /dev/null
+
+# Redirect the existing inputs to the new sink
+for i in $(pacmd list-sink-inputs | grep index | awk '{print $2}'); do
+    pacmd move-sink-input "$i" "alsa_output.${CARD}.${PROF}" &> /dev/null
+done
+
+
