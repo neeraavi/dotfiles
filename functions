@@ -31,8 +31,3 @@ tp ()
     gawk -f $NOTES_BIN/tp.awk -v kxx=$@ $NOTES_/notes.txt
 } 
 
-g()
-(
-    cd $MYPROJ
-    cat ~/tmp/project-files | xargs rg $@
-) 

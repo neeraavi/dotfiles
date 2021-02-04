@@ -64,6 +64,7 @@ git clone git://git.suckless.org/st
 cd st
 wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
 patch < st-alpha-0.8.2.diff
+cp config.def.h config.h
 wget https://st.suckless.org/patches/delkey/st-delkey-20201112-4ef0cbd.diff
 patch < st-delkey-20201112-4ef0cbd.diff
 wget https://st.suckless.org/patches/scrollback/st-scrollback-20201205-4ef0cbd.diff

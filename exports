@@ -1,6 +1,6 @@
 # vim: set ft=sh:  -*- mode: sh -*-
 
-PATH=$PATH:~/progs/bin/:~/dotfiles/
+PATH=$PATH:~/progs/bin:~/dotfiles
 # Remove duplicates
 PATH="$(printf "%s" "${PATH}" | /usr/bin/awk -v RS=: -v ORS=: '!($0 in a) {a[$0]; print}')"
 export PATH

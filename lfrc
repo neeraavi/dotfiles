@@ -16,7 +16,8 @@ map p paste
 map x cut
 map y copy
 map gt cd  ~/tmp
-map gb cd /ddrive/iyer/gDrive/data/readingMaterial/sn/books/p1/
+map gb cd /mnt/ddrive/iyer/gDrive/data/readingMaterial/sn/books/p1/
+map gc cd ~/.config/
 map gp cd  ~/progs
 map <f-12> quit
 
@@ -34,13 +35,13 @@ map <c-e> $/home/sn/progs/bin/nvim $(fzf)
 
 # cmds/functions
 #image/vnd.djvu|application/pdf|application/octet-stream) setsid -f zathura $fx >/dev/null 2>&1 ;;
+#image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" | sxiv -aio 2>/dev/null | lf-select ;;
 cmd open ${{
     case $(file --mime-type $f -b) in
 	image/vnd.djvu|application/pdf|application/octet-stream) zathura $f  ;;
         text/*) $EDITOR $fx;;
 	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
 	image/svg+xml) display -- $f ;;
-	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" | sxiv -aio 2>/dev/null | lf-select ;;
 	audio/*) mpv --audio-display=no $f ;;
 	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
 	application/pdf|application/vnd*|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;

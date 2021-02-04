@@ -1,16 +1,20 @@
 # vim: set ft=sh: -*- mode: sh -*-
-alias ex='atool -x'
+alias exp='atool -x'
+alias del="trash-put"
 alias r="lf"
 alias l="ls -lrt --color"
 alias l="exa -l -s changed --git --header"
 alias ll="lfrun"
 alias la="l -a"
+alias r="ranger"
 alias x="exit"
 alias v="nvim"
 #alias vim="v"
 
 alias p="cd ~/progs"
 alias t="cd ~/tmp"
+alias d="cd ~/Downloads"
+alias g="cd ~/gDrive"
 
 alias s="source ~/.bashrc"
 alias sa="source ~/.aliases"
@@ -37,10 +41,20 @@ alias ins="sudo pacman -S "
 
 #git
 alias gi="g -i "
-alias gc="git clone "
+#alias gc="git clone "
+alias gc="git checkout"
 alias gs="git status"
 alias gd="git diff"
 alias gsu="git submodule update --init --recursive"
 alias m="git status --short"
 alias gg="git log --oneline | fzf --multi --reverse --preview 'git show {+1}'"
 alias sp='git log --oneline --no-merges HEAD..origin/master'
+
+alias st='st > /dev/null 2>&1'
+
+# gcal
+alias cal="gcal -K --starting-day=1"
+alias hol="gcal -n -q DE_BW"
+alias moon='gcal -#0*d1#999_%O_%Z'
+alias sun='gcal --resource-file=$HOME/.gcal/astronomical -H no -ox'
+

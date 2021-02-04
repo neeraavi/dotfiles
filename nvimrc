@@ -73,16 +73,6 @@ nnoremap <C-t> <C-O>
 nnoremap <C-w> :bp\|bd #<CR>
 nnoremap <leader>t <C-]>
 
-let g:ycm_error_sym = '⚠'
-let g:ycm_warning_sym = '⚑'
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_seed_identifiers_with_syntax = ['<TAB>', '<ENTER>']
-let g:ycm_key_list_stop_completion = ['<C-y>']
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap t  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-map <leader>d  :YcmDiags<CR>
-
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_scope_highlight = 1
 let g:cpp_class_decl_highlight = 1
@@ -95,40 +85,22 @@ let g:python_support_python2_require = 0
 set rtp+=~/.fzf
 call plug#begin('~/.nvim/plugged')
 Plug 'rbgrouleff/bclose.vim'
-Plug 'ptzz/lf.vim'
-"Plug 'roxma/python-support.nvim'
+Plug 'francoiscabrol/ranger.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'fszymanski/fzf-quickfix'
 Plug 'bfrg/vim-cpp-modern'
-Plug 'Shougo/echodoc.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/gv.vim'
-"Plug 'scrooloose/nerdtree'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'pacha/vem-tabline'
 Plug 'google/vim-searchindex'
-"--------------YCM---------------
-"source prefix_root and then
-"cd ~/.nvim/plugged/YouCompleteMe
-"./install.sh --clang-completer --system-libclang
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
-"-----------------------------
-"Plug 'junegunn/rainbow_parentheses.vim'
-"Plug 'arakashic/chromatica.nvim'
-"Plug 'lyuts/vim-rtags'
-"Plug 'octol/vim-cpp-enhanced-highlight'
-"Plug 'ipod825/vim-netranger'
-"Plug 'francoiscabrol/ranger.vim'
-"Plug 'tpope/vim-surround'
-"Plug 'ap/vim-buftabline'
-"Plug 'bling/vim-bufferline'
 call plug#end()
 
+
 nmap <Leader>q <Plug>(fzf-quickfix)
+map <leader>f :Ranger<CR>
 
 let g:ranger_replace_netrw = 1
 let g:NETRColors = {'file': 65} 
@@ -188,7 +160,8 @@ command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=
 "set background=light
 "colo PaperColor
 set background=dark
-colo badwolf
+colo gruvbox
+"colo badwolf
 
 "---grep word under cursor ---
 command! -bang -nargs=* Rg
@@ -240,3 +213,7 @@ nnoremap <silent> <F8> :OpenFile<cr>
 
 map <S-Right> :bn<cr>
 map <S-Left> :bp<cr>
+"transparency
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none
+highlight CursorLine guibg=#8ec07c ctermbg=0
